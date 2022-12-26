@@ -18,3 +18,20 @@ func fossPath() string {
 func vaultPath() string {
 	return filepath.Join(fossPath(), "vault")
 }
+
+func readVault() ([]byte, error) {
+	vaultPath := vaultPath()
+
+	// Create vault if doesn't exist
+	if err := Create(); err != nil {
+		return nil, err
+	}
+
+	// Read vault file
+	data, err := os.ReadFile(vaultPath)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}
