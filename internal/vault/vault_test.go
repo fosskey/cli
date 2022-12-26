@@ -2,6 +2,8 @@ package vault
 
 import (
 	"os"
+	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -37,6 +39,12 @@ func TestStoreFetch(t *testing.T) {
 		t.Fatal("Fetch something before creating vault must return an error(NotFound)")
 	}
 
+	// List before creating the vault
+	names, err := List(masterkey)
+	if err != nil || len(names) != 0 {
+		t.Fatal("List before creating vault must return 0")
+	}
+
 	// Run Create func first
 	if err := Create(); err != nil {
 		t.Fatal(err)
@@ -59,11 +67,24 @@ func TestStoreFetch(t *testing.T) {
 		t.Fatal("Fetch something from empty vault must return an error(NotFound)")
 	}
 
+	// List from empty vault
+	names, err = List(masterkey)
+	if err != nil || len(names) != 0 {
+		t.Fatal("List from empty vault must return 0")
+	}
+
 	// Prepare three entries to be inserted
 	entries = make(map[string]string)
 	entries["FirstSecretName"] = "FirstSecretContent"
 	entries["SecondSecretName"] = "SecondSecretContent"
 	entries["ThirdSecretName"] = "ThirdSecretContent"
+
+	// Get the entry keys (names) for future use
+	entryNames := []string{}
+	for k := range entries {
+		entryNames = append(entryNames, k)
+	}
+	sort.Strings(entryNames) // sort
 
 	// Insert all three entries to the vault
 	for name, secret := range entries {
@@ -112,6 +133,12 @@ func TestStoreFetch(t *testing.T) {
 		}
 	}
 
+	// List from non-empty vault
+	names, err = List(masterkey)
+	if err != nil || !reflect.DeepEqual(names, entryNames) {
+		t.Fatal("List from non-empty vault must return all names")
+	}
+
 	// Store an entry with existing name
 	if err := Store(masterkey, "FirstSecretName", "Whatever"); err == nil || err.Error() != "DuplicateEntry" {
 		t.Fatal("Attempt to store with an existing name must return an error(DuplicateEntry)")
@@ -125,11 +152,16 @@ func TestStoreFetch(t *testing.T) {
 
 	// Fetch an existing entry with an incorrect master key
 	if _, err := Fetch("AnIncorrectMasterKey", "FirstSecretName"); err == nil || err.Error() != "AuthFailed" {
-		t.Fatal("Attempt to fetch with an incorrect master key must return an error")
+		t.Fatal("Attempt to fetch with an incorrect master key must return an error(AuthFailed)")
 	}
 
 	// Fetch a non-existing entry with an incorrect master key
 	if _, err := Fetch("AnIncorrectMasterKey", "Something"); err == nil || err.Error() != "AuthFailed" {
-		t.Fatal("Attempt to fetch with an incorrect master key must return an error")
+		t.Fatal("Attempt to fetch with an incorrect master key must return an error(AuthFailed)")
+	}
+
+	// List with an incorrect master key
+	if _, err := List("AnIncorrectMasterKey"); err == nil || err.Error() != "AuthFailed" {
+		t.Fatal("Attempt to list with an incorrect master key must return an error(AuthFailed)")
 	}
 }
