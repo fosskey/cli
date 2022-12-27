@@ -3,7 +3,6 @@ package cmd
 import (
 	"errors"
 	"fmt"
-	"strings"
 
 	"github.com/fosskey/cli/internal/util"
 	"github.com/fosskey/cli/internal/vault"
@@ -27,7 +26,17 @@ var listCmd = &cobra.Command{
 			err = errors.New("incorrect master key")
 		}
 		cobra.CheckErr(err)
-		fmt.Println(strings.Join(names, "\n"))
+		if len(names) > 0 {
+			fmt.Println("Vault")
+			lastname := names[len(names)-1]
+			names = names[:len(names)-1]
+			for _, name := range names {
+				fmt.Printf("├──%s\n", name)
+			}
+			fmt.Printf("└──%s\n", lastname)
+		} else {
+			fmt.Println("Vault is empty")
+		}
 	},
 	DisableFlagsInUseLine: true,
 }
