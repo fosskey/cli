@@ -5,8 +5,8 @@ import "sort"
 // List all names
 func List(masterkey string) ([]string, error) {
 
-	// Fetch all entries
-	entries, err := FetchAll(masterkey)
+	// Read entries
+	entries, err := read(masterkey)
 	if err != nil {
 		return nil, err
 	}

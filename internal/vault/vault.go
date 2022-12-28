@@ -1,37 +1,64 @@
 package vault
 
 import (
+	"fmt"
 	"os"
+	"path"
 	"path/filepath"
+	"strings"
 )
 
-var fossDir = ".foss"
+var (
+	fossPath  string
+	vaultPath string
+)
 
-func fossPath() string {
-	home, err := os.UserHomeDir()
-	if err != nil {
-		return ""
+// Create the vault file inside foss directory if it doesn't exist.
+func init() {
+
+	// Set paths
+	setPaths()
+
+	// Create foss directory if doesn't exist
+	if _, err := os.Stat(fossPath); err != nil {
+		err := os.Mkdir(fossPath, os.ModeDir|os.FileMode(0700))
+		handleErr(err)
 	}
-	return filepath.Join(home, fossDir)
+
+	// If the vault file doesn't exist, create it.
+	if _, err := os.Stat(vaultPath); err != nil {
+		err := os.WriteFile(vaultPath, nil, os.FileMode(0600))
+		handleErr(err)
+	}
 }
 
-func vaultPath() string {
-	return filepath.Join(fossPath(), "vault")
+// For tests set fossPath to "<ProjectRoot>/.foss", otherwise "<HomeDir>/.foss"
+// And set vaultPath to "<fossPath>/vault"
+func setPaths() {
+	if strings.HasSuffix(os.Args[0], ".test") {
+		// Test case
+		f, _ := os.Getwd()
+		rootPath := path.Join(f, "..", "..")
+		fossPath = filepath.Join(rootPath, ".foss")
+	} else {
+		// Run case
+		homePath, _ := os.UserHomeDir()
+		fossPath = filepath.Join(homePath, ".foss")
+	}
+	vaultPath = filepath.Join(fossPath, "vault")
 }
 
-func readVault() ([]byte, error) {
-	vaultPath := vaultPath()
+// Clean up vault file
+func cleanup() {
+	err := os.WriteFile(vaultPath, nil, 0)
+	handleErr(err)
+}
 
-	// Create vault if doesn't exist
-	if err := Create(); err != nil {
-		return nil, err
-	}
-
-	// Read vault file
-	data, err := os.ReadFile(vaultPath)
+// Print the error with the prefix "Error:" and exit with error code 1.
+// It does nothing if the error is nil.
+func handleErr(err error) {
 	if err != nil {
-		return nil, err
+		fmt.Fprintln(os.Stderr, "Error:", err)
+		os.Exit(1)
 	}
-
-	return data, nil
 }

@@ -1,3 +1,6 @@
+# Mock directory for test
+/.foss/
+
 # VSCode files
 .vscode/
 
