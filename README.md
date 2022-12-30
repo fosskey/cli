@@ -1,4 +1,4 @@
-# FOSS 🔑 CLI
+# Fosskey CLI
 
 Fosskey is a [**F**]ree, [**O**]pen-source, [**S**]ecure, and [**S**]elf-custodial keychain.
 
@@ -36,4 +36,15 @@ Vault
 Enter master key: [···]
 
 MyGma!lP@55
+```
+
+### Update
+
+```
+⚡ foss update Gmail
+
+Enter master key: [···]
+Enter new secret: [···]
+
+MyGma!lUpd@t3d
 ```

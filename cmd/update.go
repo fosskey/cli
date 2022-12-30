@@ -9,10 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// storeCmd represents the store command
-var storeCmd = &cobra.Command{
-	Use:   "store NAME",
-	Short: "Store a new secret",
+// updateCmd represents the update command
+var updateCmd = &cobra.Command{
+	Use:   "update NAME",
+	Short: "Update a secret",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 1 {
 			return nil
@@ -30,30 +30,32 @@ var storeCmd = &cobra.Command{
 		}
 		cobra.CheckErr(err)
 
-		// If name already exists
-		if _, err := vault.Fetch(masterkey, name); err == nil {
-			err = fmt.Errorf("%q already exists", name)
+		// If name doesn't exists
+		if _, err := vault.Fetch(masterkey, name); err != nil {
+			if err.Error() == "NotFound" {
+				err = fmt.Errorf("%q doesn't exists", name)
+			}
 			cobra.CheckErr(err)
 		}
 
 		secret := util.Password("Enter new secret: ")
-		err = vault.Store(masterkey, name, secret)
+		err = vault.Update(masterkey, name, secret)
 		cobra.CheckErr(err)
-		fmt.Printf("%s is now stored in the vault\n", name)
+		fmt.Printf("%s is now updated in the vault\n", name)
 	},
 	DisableFlagsInUseLine: true,
 }
 
 func init() {
-	rootCmd.AddCommand(storeCmd)
+	rootCmd.AddCommand(updateCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// storeCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// updateCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// storeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// updateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
