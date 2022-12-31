@@ -35,6 +35,16 @@ func TestUpdate(t *testing.T) {
 		t.Fatal("Update of a non-existent entry must return an error(NotFound)")
 	}
 
+	// Update an existing entry with an incorrect master key
+	if err := Update("AnIncorrectMasterKey", "FirstSecretName", "Whatever"); err == nil || err.Error() != "AuthFailed" {
+		t.Fatal("Attempt to update with an incorrect master key must return an error(AuthFailed)")
+	}
+
+	// Update a non-existing entry with an incorrect master key
+	if err := Update("AnIncorrectMasterKey", "UnicornEgg", "Whatever"); err == nil || err.Error() != "AuthFailed" {
+		t.Fatal("Attempt to update with an incorrect master key must return an error(AuthFailed)")
+	}
+
 	// Update all three entries by appending "Updated" to the end
 	for name, secret := range entries {
 		err := Update(masterkey, name, secret+"Updated")
