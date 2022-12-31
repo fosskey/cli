@@ -40,7 +40,7 @@ func Password(prompt string) string {
 
 	// Keep reading password until non-empty
 	for len(pw) == 0 {
-		pw, err = term.ReadPassword(int(os.Stderr.Fd()))
+		pw, err = term.ReadPassword(int(syscall.Stdin))
 		if err != nil {
 			panic(err)
 		}
