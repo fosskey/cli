@@ -48,3 +48,13 @@ Enter new secret: [···]
 
 Gmail is now updated in the vault
 ```
+
+### Delete
+
+```
+⚡ foss delete Gmail
+
+Enter master key: [···]
+
+Gmail is now deleted from the vault
+```
