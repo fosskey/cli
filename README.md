@@ -58,3 +58,14 @@ Enter master key: [···]
 
 Gmail is now deleted from the vault
 ```
+
+### Change master key
+
+```
+⚡ foss rekey
+
+Enter old master key: [···]
+Enter new master key: [···]
+
+Masterkey is now changed
+```
