@@ -17,13 +17,16 @@ func TestVerify(t *testing.T) {
 		t.Fatal("Verify against empty vault must return true")
 	}
 
-	// Insert three entries into the vault
-	for name, secret := range map[string]string{
+	// Prepare three entries to be inserted
+	entries := map[string]string{
 		"FirstSecretName":  "FirstSecretContent",
 		"SecondSecretName": "SecondSecretContent",
 		"ThirdSecretName":  "ThirdSecretContent",
-	} {
-		if err := Store(masterkey, name, secret); err != nil {
+	}
+
+	// Insert all three entries into the vault
+	for name, secret := range entries {
+		if err := Insert(masterkey, name, secret); err != nil {
 			t.Fatal(err)
 		}
 	}

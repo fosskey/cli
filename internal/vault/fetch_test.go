@@ -25,7 +25,7 @@ func TestFetch(t *testing.T) {
 
 	// Insert all three entries into the vault
 	for name, secret := range entries {
-		if err := Store(masterkey, name, secret); err != nil {
+		if err := Insert(masterkey, name, secret); err != nil {
 			t.Fatal(err)
 		}
 	}

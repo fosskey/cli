@@ -9,10 +9,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// storeCmd represents the store command
-var storeCmd = &cobra.Command{
-	Use:   "store NAME",
-	Short: "Store a new secret",
+// insertCmd represents the insert command
+var insertCmd = &cobra.Command{
+	Use:   "insert NAME",
+	Short: "Insert a new secret",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) == 1 {
 			return nil
@@ -37,23 +37,23 @@ var storeCmd = &cobra.Command{
 		}
 
 		secret := util.Password("Enter new secret: ")
-		err = vault.Store(masterkey, name, secret)
+		err = vault.Insert(masterkey, name, secret)
 		cobra.CheckErr(err)
-		fmt.Printf("%s is now stored in the vault\n", name)
+		fmt.Printf("%s is now inserted into the vault\n", name)
 	},
 	DisableFlagsInUseLine: true,
 }
 
 func init() {
-	rootCmd.AddCommand(storeCmd)
+	rootCmd.AddCommand(insertCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// storeCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// insertCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// storeCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// insertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

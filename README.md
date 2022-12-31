@@ -4,15 +4,15 @@ Fosskey is a [**F**]ree, [**O**]pen-source, [**S**]ecure, and [**S**]elf-custodi
 
 ## Usage
 
-### Store a password
+### Insert a new secret
 
 ```
-⚡ foss store Gmail
+⚡ foss insert Gmail
 
 Enter master key: [···]
 Enter new secret: [···]
 
-Gmail is now stored in the vault
+Gmail is now inserted into the vault
 ```
 
 ### List all
@@ -46,5 +46,5 @@ MyGma!lP@55
 Enter master key: [···]
 Enter new secret: [···]
 
-MyGma!lUpd@t3d
+Gmail is now updated in the vault
 ```

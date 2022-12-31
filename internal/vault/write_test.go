@@ -45,7 +45,7 @@ func TestWrite(t *testing.T) {
 
 	// Check vault file size
 	if file.Size() == 0 {
-		t.Fatal("Vault file is empty after store")
+		t.Fatal("Vault file is empty after write")
 	}
 
 	// Check vault file mode

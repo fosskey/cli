@@ -4,7 +4,7 @@ import (
 	"errors"
 )
 
-func Store(masterkey, name, secret string) error {
+func Insert(masterkey, name, secret string) error {
 
 	// Read entries
 	entries, err := read(masterkey)
