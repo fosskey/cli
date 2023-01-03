@@ -6,6 +6,10 @@
 
 # Fosskey CLI
 
+Fosskey CLI (command-line interface) is the simplest way to start using an [encrypted vault][vault-repo] to store your secrets and passwords.
+
+## What is Fosskey?
+
 Fosskey is a [**F**]ree, [**O**]pen-source, [**S**]ecure, and [**S**]elf-custodial keychain.
 
 ## How do "they" store our passwords?
@@ -145,6 +149,7 @@ Fosskey does not store the master key. Instead, it uses the Argon2id key-derivat
 
 While using the recommended parameters specified in [RFC 9106][rfc9106-params], the encryption/decryption method took about 0.8 seconds to process on a quad-core Intel processor with 16 GiB of memory. If a master key is composed of 8 characters of upper-case (A-Z), lower-case (a-z) letters and numbers (0-9), and symbols (32), there will be a total of 94 possible characters. Therefore, at least a total of B=nP(r-1) brute-force attacks is required to guess the correct master key. Here "B" is the permutation of (n, r-1). Thus, with the target hardware configuration (quad-core, 16 GiB memory), it will take about 1.3 million computation years to brute-force the 8-character long master key.
 
+[vault-repo]: https://github.com/fosskey/vault
 [chacha20-poly1305]: https://en.wikipedia.org/wiki/ChaCha20-Poly1305
 [argon2]: https://en.wikipedia.org/wiki/Argon2
 [rfc9106-params]: https://www.rfc-editor.org/rfc/rfc9106.html#name-parameter-choice

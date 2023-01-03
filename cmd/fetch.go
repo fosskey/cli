@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/fosskey/cli/internal/util"
-	"github.com/fosskey/cli/internal/vault"
+	"github.com/fosskey/vault"
 	"github.com/spf13/cobra"
 )
 

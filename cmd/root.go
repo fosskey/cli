@@ -11,7 +11,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:     "foss",
 	Short:   "A free, open-source, secure, and self-custodial keychain",
-	Version: "0.0.0",
+	Version: "0.1.0",
 	CompletionOptions: cobra.CompletionOptions{
 		DisableDefaultCmd:   false,
 		HiddenDefaultCmd:    true,
