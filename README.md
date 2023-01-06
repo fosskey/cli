@@ -6,7 +6,7 @@
 
 # Fosskey CLI
 
-Fosskey CLI (command-line interface) is the simplest way to start using an [encrypted vault][vault-repo] to store your secrets and passwords.
+Fosskey CLI (command-line interface) is the simplest way for using [Foss Encrypted Vault][vault-repo] to store your secrets and passwords.
 
 ## What is Fosskey?
 
